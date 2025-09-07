@@ -1,7 +1,8 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { WebSocketServer, WebSocket } from "ws";
-import { storage, type IStorage } from "./storage";
+import { mysqlStorage as storage } from "./database";
+import { type IStorage } from "./storage";
 import { insertUserSchema, insertPartnerSchema, insertProductSchema, insertNewsletterSchema, insertChatSessionSchema, insertChatMessageSchema, type Category } from "@shared/schema";
 import { generateVioletResponse, analyzeCustomerIntent, type VioletContext } from "./violet-ai";
 import { randomUUID } from "crypto";

@@ -1,4 +1,5 @@
 import mysql from 'mysql2/promise';
+import { randomUUID } from 'crypto';
 import { type User, type InsertUser, type Partner, type InsertPartner, type Category, type Product, type InsertProduct, type Order, type InsertOrder, type OrderItem, type Dispute, type FlashSale, type Newsletter, type InsertNewsletter, type ChatSession, type InsertChatSession, type ChatMessage, type InsertChatMessage } from "@shared/schema";
 import { IStorage } from './storage';
 
@@ -27,7 +28,7 @@ export class MySQLStorage implements IStorage {
   }
 
   async createUser(user: InsertUser): Promise<User> {
-    const id = crypto.randomUUID();
+    const id = randomUUID();
     await pool.execute(
       'INSERT INTO users (id, username, email, password, is_partner, created_at) VALUES (?, ?, ?, ?, ?, NOW())',
       [id, user.username, user.email, user.password, user.isPartner || false]
@@ -48,7 +49,7 @@ export class MySQLStorage implements IStorage {
   }
 
   async createPartner(partner: InsertPartner): Promise<Partner> {
-    const id = crypto.randomUUID();
+    const id = randomUUID();
     await pool.execute(
       'INSERT INTO partners (id, user_id, business_name, category, description, website, commission_rate, status, credit_card_on_file, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, "pending", 0, NOW())',
       [id, partner.userId, partner.businessName, partner.category, partner.description, partner.website || null, partner.commissionRate]
@@ -122,7 +123,7 @@ export class MySQLStorage implements IStorage {
   }
 
   async createProduct(product: InsertProduct): Promise<Product> {
-    const id = crypto.randomUUID();
+    const id = randomUUID();
     await pool.execute(
       'INSERT INTO products (id, partner_id, category_id, name, description, price, sale_price, image_url, gallery_urls, in_stock, featured, rating, review_count, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, "0.00", 0, NOW())',
       [
@@ -159,7 +160,7 @@ export class MySQLStorage implements IStorage {
   }
 
   async createOrder(order: InsertOrder): Promise<Order> {
-    const id = crypto.randomUUID();
+    const id = randomUUID();
     await pool.execute(
       'INSERT INTO orders (id, user_id, total_amount, status, delivery_confirmed, created_at) VALUES (?, ?, ?, "pending", 0, NOW())',
       [id, order.userId, order.totalAmount]
@@ -177,7 +178,7 @@ export class MySQLStorage implements IStorage {
 
   // Newsletter
   async subscribeNewsletter(newsletter: InsertNewsletter): Promise<Newsletter> {
-    const id = crypto.randomUUID();
+    const id = randomUUID();
     await pool.execute(
       'INSERT INTO newsletter (id, email, subscribed_at, active) VALUES (?, ?, NOW(), 1)',
       [id, newsletter.email]
@@ -194,7 +195,7 @@ export class MySQLStorage implements IStorage {
 
   // Chat
   async createChatSession(session: InsertChatSession): Promise<ChatSession> {
-    const id = crypto.randomUUID();
+    const id = randomUUID();
     await pool.execute(
       'INSERT INTO chat_sessions (id, session_id, is_admin_mode, user_id, created_at, last_activity_at) VALUES (?, ?, ?, ?, NOW(), NOW())',
       [id, session.sessionId, session.isAdminMode || false, session.userId || null]
@@ -220,7 +221,7 @@ export class MySQLStorage implements IStorage {
   }
 
   async createChatMessage(message: InsertChatMessage): Promise<ChatMessage> {
-    const id = crypto.randomUUID();
+    const id = randomUUID();
     await pool.execute(
       'INSERT INTO chat_messages (id, session_id, sender, message, message_type, metadata, created_at) VALUES (?, ?, ?, ?, ?, ?, NOW())',
       [id, message.sessionId, message.sender, message.message, message.messageType || 'text', message.metadata || null]
