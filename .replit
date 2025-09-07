@@ -15,15 +15,15 @@ author = "agent"
 
 [[workflows.workflow.tasks]]
 task = "workflow.run"
-args = "Frontend"
+args = "Shop-Glow"
 
 [[workflows.workflow]]
-name = "Frontend"
+name = "Shop-Glow"
 author = "agent"
 
 [[workflows.workflow.tasks]]
 task = "shell.exec"
-args = "cd frontend && npm start"
+args = "npm run dev"
 waitForPort = 5000
 
 [workflows.workflow.metadata]
@@ -40,4 +40,5 @@ externalPort = 80
 
 [deployment]
 deploymentTarget = "autoscale"
-run = ["cd", "frontend", "&&", "npm", "start"]
+run = ["npm", "start"]
+build = ["npm", "run"]
