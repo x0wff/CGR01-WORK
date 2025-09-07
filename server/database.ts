@@ -4,17 +4,13 @@ import { type User, type InsertUser, type Partner, type InsertPartner, type Cate
 import { IStorage } from './storage';
 
 const pool = mysql.createPool({
-  host: process.env.DB_HOST || 'localhost',       // Use environment variable for cPanel host
-  port: parseInt(process.env.DB_PORT || '3306'),
-  user: 'shopilrh_CGR01u',                        // your DB user
-  password: 'JOXXj4CwhHlr',                       // your DB password
-  database: 'shopilrh_CGR01',                     // your DB name
+  host: "localhost",                // cPanel DB host
+  user: "shopilrh_CGR01u",          // cPanel DB user
+  password: "JOXXj4CwhHlr",         // cPanel DB password
+  database: "shopilrh_CGR01",       // cPanel DB name
   waitForConnections: true,
   connectionLimit: 10,
-  queueLimit: 0,
-  acquireTimeout: 60000,
-  timeout: 60000,
-  reconnect: true
+  queueLimit: 0
 });
 
 export class MySQLStorage implements IStorage {
